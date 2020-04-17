@@ -47,22 +47,27 @@ def process_text():
   forms = forms_of_words(input)
   lexems = get_lexems(input)
   for key, value in forms.items():
-    tree.insert("", "end", text="%s" % key, values=('%s' % value))
-  print(forms)
-  print(lexems)
+    tree.insert("", "end", text="%s" % key, values=('%s' % value, ''))
 
+def add_note():
+  text_field.pack()
+  submit_button.pack()
 
-def OnDoubleClick(event):
+def submit():
   item = tree.selection()
-  print('item:', item)
-  print('event:', event)
-  item = tree.selection()[0]
-  print("you clicked on", tree.item(item,"text"))
+  notes = text_field.get(1.0, END)
+  text_field.pack_forget()
+  submit_button.pack_forget()
+  value = tree.item(item)['values'][0]
+  tree.item(item, values=(value, notes))
 
 root = tk.Tk()
 
 text = Text(width=25, height=5)
 text.pack()
+
+text_field = Text(width=25, height=5)
+submit_button = Button(text='Добавить', command=submit)
 
 frame = Frame()
 frame.pack()
@@ -73,14 +78,13 @@ button.pack(side=LEFT)
 tree = ttk.Treeview()
 tree.pack()
 
-tree["columns"]=("one","two","three")
+add_note_button = Button(frame, text='Add note', command=add_note)
+add_note_button.pack()
+
+tree["columns"]=("one","two")
 
 tree.heading("#0",text="Forms",anchor=tk.W)
 tree.heading("one", text="Count",anchor=tk.W)
-
-# for i in range(10):
-#   tree.insert("", "end", text="Item %s" % i)
-
-tree.bind("<<TreeviewSelect>>", OnDoubleClick)
+tree.heading("two", text="Notes",anchor=tk.W)
 
 root.mainloop()
