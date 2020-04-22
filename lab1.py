@@ -81,7 +81,16 @@ def save_vocabulary():
     f.close()
 
 def upload_vocabulary():
-  print('rocketship')
+  file_path = filedialog.askopenfilename()
+  if file_path != '':
+    with open(file_path) as json_file:
+      vocabulary = json.load(json_file)
+    tree.delete(*tree.get_children())
+    lexems_tree.delete(*lexems_tree.get_children())
+    for key, value in vocabulary['forms'].items():
+      tree.insert("", "end", text="%s" % key, values=('%s' % value[0], value[1]))
+    for key, value in vocabulary['lexems'].items():
+      lexems_tree.insert("", "end", text="%s" % key, values=('%s' % value))
 
 root = tk.Tk()
 
