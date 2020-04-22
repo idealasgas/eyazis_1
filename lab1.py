@@ -7,6 +7,9 @@ nltk.download('punkt')
 from tkinter import ttk
 import tkinter as tk
 from tkinter import *
+import json
+import pickle
+from tkinter import filedialog
 
 #Create lemmatizer and stopwords list
 mystem = Mystem()
@@ -69,10 +72,13 @@ def submit():
   text = tree.item(item)['text']
   vocabulary['forms'][text][1] = notes
   tree.item(item, values=(value, notes))
-  print(vocabulary)
 
 def save_vocabulary():
-  print('hello')
+  file_path = filedialog.asksaveasfilename()
+  if file_path != '':
+    f = open(file_path, "w")
+    f.write(json.dumps(vocabulary))
+    f.close()
 
 def upload_vocabulary():
   print('rocketship')
