@@ -14,7 +14,7 @@ from tkinter import filedialog
 #Create lemmatizer and stopwords list
 mystem = Mystem()
 russian_stopwords = stopwords.words("russian")
-not_words = [',', '.', '!', '?']
+not_words = [',', '.', '!', '?', '-', '+', '=']
 vocabulary = {}
 
 def preprocess_text(text):
@@ -23,7 +23,6 @@ def preprocess_text(text):
               and token != " " \
               and token.strip() not in punctuation]
     return tokens
-    # text = " ".join(tokens)
 
 def forms_of_words(text):
   forms = defaultdict(lambda: 0)
@@ -98,12 +97,12 @@ text = Text(width=25, height=5)
 text.pack()
 
 text_field = Text(width=25, height=5)
-submit_button = Button(text='Добавить', command=submit)
+submit_button = Button(text='Add', command=submit)
 
 frame = Frame()
 frame.pack()
 
-button = Button(frame, text="Обработать", command=process_text)
+button = Button(frame, text="Process", command=process_text)
 button.pack(side=LEFT)
 
 tree = ttk.Treeview()
